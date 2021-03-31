@@ -1,7 +1,6 @@
-import {NextComponentType} from 'next'
 import style from './Footer.module.sass'
 
-const Footer: NextComponentType = () => {
+const Footer = () => {
   return (
     <footer className={style.footer}>
       <h1>Подвал</h1>

@@ -1,13 +1,13 @@
-import {NextComponentType} from 'next'
+import {ReactNode} from 'react'
 import Head from 'next/head'
 import {Header, Footer} from '../components'
 
 type LayoutProps = {
   title: string
-  children: any
+  children: ReactNode
 }
 
-const Layout: NextComponentType = ({title, children}: LayoutProps) => {
+const Layout = ({title, children}: LayoutProps) => {
   return (
     <>
       <Head>

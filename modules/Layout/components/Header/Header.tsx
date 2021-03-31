@@ -1,12 +1,11 @@
 import {useState} from 'react'
-import {NextComponentType} from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import {useRouter, NextRouter} from 'next/router'
 import {Button} from '../../../../components'
 import style from './Header.module.sass'
 
-const Header: NextComponentType = () => {
+const Header = () => {
   const router: NextRouter = useRouter()
 
   const [show, setShow] = useState<boolean>(false)
