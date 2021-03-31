@@ -12,7 +12,7 @@ const Header: NextComponentType = () => {
   const [show, setShow] = useState<boolean>(false)
   const [toggleClass, setToggleClass] = useState<string>(style.toggle)
 
-  const cx: () => string = (...classNames: string[]) => classNames.join(' ')
+  const cx = (...classNames: string[]) => classNames.join(' ')
 
   const showNav: () => void = () => {
     if (show) {
