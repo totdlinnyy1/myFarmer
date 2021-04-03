@@ -64,10 +64,10 @@ const Header = () => {
             </div>
           </div>
           <div className={style.loginButton}>
-            <Button text='Войти' handleSubmit={() => router.push('/login')} />
+            <Button text='Войти' handleSubmit={() => router.push('/signin')} />
           </div>
         </div>
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
         <div className={style.burger} onClick={showNav}>
           <div className='line1' />
           <div className='line2' />
