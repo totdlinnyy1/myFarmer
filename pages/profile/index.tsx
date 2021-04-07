@@ -27,6 +27,7 @@ const Profile: NextPage<Props> = () => {
             lastname='Балцевич'
             avatar={null}
             editable={true}
+            /* eslint-disable-next-line jsx-a11y/aria-role */
             role='farmer'
             color='#fff'
           />
