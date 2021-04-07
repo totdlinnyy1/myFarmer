@@ -51,10 +51,23 @@
     font-size: 20px
     padding: 0 30px
 
+.logout
+  height: 60px
+  width: 22%
+  display: flex
+  align-items: center
+  justify-content: space-between
+  button
+    font-size: 18px
+
 @media screen and (max-width: 1237px)
 
   .navLinks
     width: 80%
+
+  .logout
+    button
+      padding: 0 15px
 
 @media screen and (max-width: 859px)
 
@@ -96,6 +109,14 @@
     div
       display: flex
       cursor: pointer
+
+  .logout
+    height: 80px
+    width: 100%
+    flex-direction: column
+    button
+      padding: 0 20px
+      margin-bottom: 10px
 
   .open
     clip-path: circle(1300px at 90% -20%)

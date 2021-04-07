@@ -3,9 +3,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {useRouter, NextRouter} from 'next/router'
 import {Button} from '../../../../components'
+import useUser from '../../../../lib/useUser'
+import fetchJson from '../../../../lib/fetchJson'
 import style from './Header.module.sass'
 
 const Header = () => {
+  const {user, mutateUser} = useUser()
+
   const router: NextRouter = useRouter()
 
   const [show, setShow] = useState<boolean>(false)
@@ -63,9 +67,31 @@ const Header = () => {
               </Link>
             </div>
           </div>
-          <div className={style.loginButton}>
-            <Button text='Войти' handleSubmit={() => router.push('/signin')} />
-          </div>
+          {user?.isLoggedIn ? (
+            <div className={style.logout}>
+              <Button
+                handleSubmit={() => router.push('/profile')}
+                text='Личный кабинет'
+              />
+              <a
+                href='/api/logout'
+                onClick={async e => {
+                  e.preventDefault()
+                  await mutateUser(fetchJson('/api/logout'))
+                  await router.push('/signin')
+                }}
+              >
+                <p>Выйти</p>
+              </a>
+            </div>
+          ) : (
+            <div className={style.loginButton}>
+              <Button
+                text='Войти'
+                handleSubmit={() => router.push('/signin')}
+              />
+            </div>
+          )}
         </div>
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
         <div className={style.burger} onClick={showNav}>

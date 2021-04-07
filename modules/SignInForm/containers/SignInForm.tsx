@@ -1,8 +1,9 @@
 import {withFormik, FormikErrors} from 'formik'
 import InnerForm from '../components/InnerForm'
+import fetchJson from '../../../lib/fetchJson'
 
 interface MyFormProps {
-  initialEmail?: string
+  mutateUser: any
 }
 
 interface FormValues {
@@ -11,13 +12,6 @@ interface FormValues {
 }
 
 const SignInForm = withFormik<MyFormProps, FormValues>({
-  mapPropsToValues: props => {
-    return {
-      email: props.initialEmail || '',
-      password: '',
-    }
-  },
-
   validate: (values: FormValues) => {
     const errors: FormikErrors<FormValues> = {}
     if (!values.email) {
@@ -33,8 +27,18 @@ const SignInForm = withFormik<MyFormProps, FormValues>({
     return errors
   },
 
-  handleSubmit: values => {
-    console.log(values)
+  handleSubmit: async (values, props) => {
+    try {
+      await props.props.mutateUser(
+        fetchJson('/api/signin', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(values),
+        })
+      )
+    } catch (error) {
+      console.error('An unexpected error happened:', error)
+    }
   },
 })(InnerForm)
 
