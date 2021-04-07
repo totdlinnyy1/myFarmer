@@ -20,6 +20,7 @@ const InnerForm = (props: FormikProps<FormValues>) => {
           name='email'
           className={style.input}
           placeholder='example@email.com'
+          disabled={isSubmitting}
         />
       </div>
       <div className={style.error}>
@@ -33,6 +34,7 @@ const InnerForm = (props: FormikProps<FormValues>) => {
           name='password'
           className={style.input}
           placeholder='Пароль'
+          disabled={isSubmitting}
         />
       </div>
       <div className={style.error}>

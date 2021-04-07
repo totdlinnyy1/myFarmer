@@ -1,5 +1,7 @@
 import {withFormik, FormikErrors} from 'formik'
+import {toast} from 'react-hot-toast'
 import InnerForm from '../components/InnerForm'
+import fetchJson from '../../../lib/fetchJson'
 
 interface FormValues {
   name: string
@@ -12,6 +14,7 @@ interface FormValues {
 
 interface MyFormProps {
   role: string
+  mutateUser: any
 }
 
 const SignUpForm = withFormik<MyFormProps, FormValues>({
@@ -48,14 +51,26 @@ const SignUpForm = withFormik<MyFormProps, FormValues>({
     }
     if (!values.phone) {
       errors.phone = 'Обязательное поле'
-    } else if (values.phone.length !== 17) {
-      errors.phone = 'Номер введен неккоректно'
     }
     return errors
   },
 
-  handleSubmit: values => {
+  handleSubmit: async (values, props) => {
     console.log(values)
+    try {
+      await props.props.mutateUser(
+        fetchJson('/api/signup', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(values),
+        })
+      )
+    } catch (error) {
+      props.setSubmitting(false)
+      if (error.data) {
+        toast.error(error.data)
+      }
+    }
   },
 })(InnerForm)
 

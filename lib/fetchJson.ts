@@ -18,9 +18,9 @@ export default async function fetcher(...args: any) {
       return data
     }
 
-    const error: error = new Error(response.statusText)
-    error.response = response
-    error.data = data
+    const error: error = new Error(data.statusText)
+    error.response = data
+    error.data = data.data
     throw error
   } catch (error) {
     if (!error.data) {

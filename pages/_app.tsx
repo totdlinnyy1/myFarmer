@@ -9,9 +9,6 @@ function MyApp({Component, pageProps}: AppProps) {
     <SWRConfig
       value={{
         fetcher: fetchJson,
-        onError: err => {
-          console.error(err)
-        },
       }}
     >
       <Component {...pageProps} />

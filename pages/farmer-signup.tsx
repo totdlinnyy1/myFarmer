@@ -1,10 +1,13 @@
 import {NextPage} from 'next'
 import {Props} from 'next/dist/client/experimental-script'
 import Image from 'next/image'
+import useUser from '../lib/useUser'
 import {Layout, SignUpForm} from '../modules'
 import style from '../styles/pages/SignIn.module.sass'
 
 const FarmerSignIn: NextPage<Props> = () => {
+  const {mutateUser} = useUser({redirectTo: '/profile', redirectIfFound: true})
+
   return (
     <Layout title='Регистрация'>
       <div className={style.container}>
@@ -15,7 +18,7 @@ const FarmerSignIn: NextPage<Props> = () => {
         </div>
         <div className={style.form}>
           {/* eslint-disable-next-line jsx-a11y/aria-role */}
-          <SignUpForm role='farmer' />
+          <SignUpForm role='farmer' mutateUser={mutateUser} />
         </div>
       </div>
     </Layout>

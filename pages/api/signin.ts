@@ -15,6 +15,12 @@ type User = {
   salt?: string
 }
 
+type error = {
+  status: number
+  data: string
+  statusText: string
+}
+
 export default withSession(async (req, res) => {
   const {email, password} = req.body
 
@@ -40,10 +46,23 @@ export default withSession(async (req, res) => {
         req.session.set('user', session)
         await req.session.save()
         res.json(user)
+      } else {
+        const error: error = {
+          status: 404,
+          data: 'Такого пользователя не существует',
+          statusText: 'Input Error',
+        }
+        throw error
       }
-    } else throw new Error('User is not exist')
+    } else {
+      const error: error = {
+        status: 404,
+        data: 'Такого пользователя не существует',
+        statusText: 'Input Error',
+      }
+      throw error
+    }
   } catch (error) {
-    const {response: fetchResponse} = error
-    res.status(fetchResponse?.status || 500).json(error.data)
+    res.status(error?.status || 500).json(error)
   }
 })

@@ -1,4 +1,5 @@
 import {withFormik, FormikErrors} from 'formik'
+import {toast} from 'react-hot-toast'
 import InnerForm from '../components/InnerForm'
 import fetchJson from '../../../lib/fetchJson'
 
@@ -37,7 +38,8 @@ const SignInForm = withFormik<MyFormProps, FormValues>({
         })
       )
     } catch (error) {
-      console.error('An unexpected error happened:', error)
+      props.setSubmitting(false)
+      toast.error(error.data)
     }
   },
 })(InnerForm)

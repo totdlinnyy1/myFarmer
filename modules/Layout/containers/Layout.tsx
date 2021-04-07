@@ -1,5 +1,6 @@
 import {ReactNode} from 'react'
 import Head from 'next/head'
+import {Toaster} from 'react-hot-toast'
 import {Header, Footer} from '../components'
 
 type LayoutProps = {
@@ -13,6 +14,13 @@ const Layout = ({title, children}: LayoutProps) => {
       <Head>
         <title>{title}</title>
       </Head>
+      <Toaster
+        toastOptions={{
+          style: {
+            margin: '150px',
+          },
+        }}
+      />
       <Header />
       <main>{children}</main>
       <Footer />
