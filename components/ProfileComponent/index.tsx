@@ -37,7 +37,7 @@ const ProfileComponent = ({
           )}
         </div>
         <div style={{color: `${color}`}}>
-          <p>{role === 'farmer' ? 'Фермер' : 'Покупатель'}</p>
+          <p>{role}</p>
         </div>
       </div>
     </div>

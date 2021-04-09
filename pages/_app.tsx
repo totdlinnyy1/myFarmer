@@ -2,6 +2,7 @@ import App from 'next/app'
 import type {AppProps, AppContext} from 'next/app'
 import {SWRConfig} from 'swr'
 import fetchJson from '../lib/fetchJson'
+import {NextNProgress} from '../components'
 import '../styles/index.sass'
 
 function MyApp({Component, pageProps}: AppProps) {
@@ -11,6 +12,7 @@ function MyApp({Component, pageProps}: AppProps) {
         fetcher: fetchJson,
       }}
     >
+      <NextNProgress />
       <Component {...pageProps} />
     </SWRConfig>
   )

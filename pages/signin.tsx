@@ -6,10 +6,17 @@ import useUser from '../lib/useUser'
 import style from '../styles/pages/SignIn.module.sass'
 
 const SignIn: NextPage<Props> = () => {
-  const {mutateUser} = useUser({redirectTo: '/profile', redirectIfFound: true})
+  const {user, mutateUser} = useUser({
+    redirectTo: '/profile',
+    redirectIfFound: true,
+  })
+
+  if (user.isLoggedIn === true) {
+    return <Layout title='loading...' loading={true} />
+  }
 
   return (
-    <Layout title='Вход'>
+    <Layout title='Вход' loading={false}>
       <div className={style.container}>
         <div className={style.info}>
           <h1>Вход</h1>

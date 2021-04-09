@@ -1,14 +1,16 @@
 import {ReactNode} from 'react'
 import Head from 'next/head'
 import {Toaster} from 'react-hot-toast'
+import {PuffLoader} from 'react-spinners'
 import {Header, Footer} from '../components'
 
 type LayoutProps = {
   title: string
-  children: ReactNode
+  loading: boolean
+  children?: ReactNode
 }
 
-const Layout = ({title, children}: LayoutProps) => {
+const Layout = ({title, loading, children}: LayoutProps) => {
   return (
     <>
       <Head>
@@ -22,7 +24,23 @@ const Layout = ({title, children}: LayoutProps) => {
         }}
       />
       <Header />
-      <main>{children}</main>
+      <main>
+        {loading ? (
+          <div
+            style={{
+              width: '100%',
+              height: 800,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <PuffLoader size={150} color='#fff' />
+          </div>
+        ) : (
+          children
+        )}
+      </main>
       <Footer />
     </>
   )

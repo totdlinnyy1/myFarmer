@@ -10,7 +10,7 @@ const IndexPage: NextPage<Props> = () => {
   const router = useRouter()
 
   return (
-    <Layout title='Главная'>
+    <Layout title='Главная' loading={false}>
       <div className={style.container}>
         <div className={style.header}>
           <div className={style.info}>

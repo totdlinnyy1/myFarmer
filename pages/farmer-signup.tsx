@@ -6,10 +6,17 @@ import {Layout, SignUpForm} from '../modules'
 import style from '../styles/pages/SignIn.module.sass'
 
 const FarmerSignIn: NextPage<Props> = () => {
-  const {mutateUser} = useUser({redirectTo: '/profile', redirectIfFound: true})
+  const {user, mutateUser} = useUser({
+    redirectTo: '/profile',
+    redirectIfFound: true,
+  })
+
+  if (user || user.isLoggedIn === true) {
+    return <Layout title='loading...' loading={true} />
+  }
 
   return (
-    <Layout title='Регистрация'>
+    <Layout title='Регистрация' loading={false}>
       <div className={style.container}>
         <div className={style.info}>
           <h1>Регистрация</h1>
