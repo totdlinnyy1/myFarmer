@@ -3,6 +3,7 @@ import {Props} from 'next/dist/client/experimental-script'
 import withSession from '../../lib/session'
 import dbConnect from '../../utils/dbConnect'
 import Order from '../../models/Order'
+import {Product} from '../../models/User'
 import useUser from '../../lib/useUser'
 import role from '../../helpers/role'
 import isFarmer from '../../helpers/isFarmer'
@@ -12,7 +13,7 @@ import style from '../../styles/pages/Profile.module.sass'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const Profile: NextPage<Props> = ({fetchedOrders}) => {
+const Profile: NextPage<Props> = ({fetchedOrders, fetchedProducts}) => {
   const {user} = useUser({redirectTo: '/signin'})
 
   if (!user || user.isLoggedIn === false) {
@@ -38,7 +39,10 @@ const Profile: NextPage<Props> = ({fetchedOrders}) => {
         </div>
         {isFarmer(user.role) && (
           <div>
-            <CreateProduct id={user.id} />
+            <CreateProduct
+              id={user.id}
+              fetchedProducts={JSON.parse(fetchedProducts)}
+            />
           </div>
         )}
       </div>
@@ -52,8 +56,12 @@ export const getServerSideProps: GetServerSideProps = withSession(
     if (isFarmer(user.role)) {
       await dbConnect()
       const fetchedOrders = await Order.find({status: 'В процессе'})
+      const fetchedProducts = await Product.find({owner: user.id})
       return {
-        props: {fetchedOrders: JSON.stringify(fetchedOrders)},
+        props: {
+          fetchedOrders: JSON.stringify(fetchedOrders),
+          fetchedProducts: JSON.stringify(fetchedProducts),
+        },
       }
     }
   }

@@ -16,7 +16,7 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  count: {
+  coast: {
     type: Number,
     required: true,
   },
