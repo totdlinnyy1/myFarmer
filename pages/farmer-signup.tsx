@@ -11,7 +11,7 @@ const FarmerSignIn: NextPage<Props> = () => {
     redirectIfFound: true,
   })
 
-  if (user || user.isLoggedIn === true) {
+  if (user && user.isLoggedIn) {
     return <Layout title='loading...' loading={true} />
   }
 

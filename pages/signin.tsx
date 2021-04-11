@@ -11,7 +11,7 @@ const SignIn: NextPage<Props> = () => {
     redirectIfFound: true,
   })
 
-  if (user.isLoggedIn === true) {
+  if (user && user.isLoggedIn) {
     return <Layout title='loading...' loading={true} />
   }
 
