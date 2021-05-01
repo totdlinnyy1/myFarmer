@@ -1,4 +1,10 @@
-import {YMaps, Map, Placemark} from 'react-yandex-maps'
+import {
+  YMaps,
+  Map,
+  Placemark,
+  SearchControl,
+  ZoomControl,
+} from 'react-yandex-maps'
 import style from './IndexMap.module.sass'
 
 type MapProps = {
@@ -8,7 +14,7 @@ type MapProps = {
 
 const IndexMap = ({handleMapClick, placemarks}: MapProps) => {
   return (
-    <YMaps>
+    <YMaps query={{apikey: '02130a82-c368-4497-b079-9609641139cd'}}>
       <div className={style.map}>
         <Map
           defaultState={{center: [55.75, 37.57], zoom: 9}}
@@ -23,6 +29,8 @@ const IndexMap = ({handleMapClick, placemarks}: MapProps) => {
                 key={key}
               />
             ))}
+          <SearchControl options={{noPlacemark: true}} />
+          <ZoomControl />
         </Map>
       </div>
     </YMaps>

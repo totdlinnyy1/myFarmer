@@ -1,5 +1,6 @@
-import style from './List.module.sass'
+import Router from 'next/router'
 import {Button, OrderBlock} from '../../../../components'
+import style from './List.module.sass'
 
 type ListProps = {
   objects: any
@@ -27,7 +28,7 @@ const List = (props: ListProps) => {
         ))}
       </div>
       <div className={style.button}>
-        <Button text={BUTTON_TEXT} />
+        <Button text={BUTTON_TEXT} handleSubmit={() => Router.push('/new')} />
       </div>
     </div>
   )

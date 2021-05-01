@@ -1,4 +1,4 @@
-import {IndexMap, List} from '../Components'
+import {IndexMap, List} from '../components'
 import style from './ProfileMap.module.sass'
 
 type ProfileMapProps = {

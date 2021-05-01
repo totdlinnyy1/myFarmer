@@ -1,5 +1,6 @@
 export {default as Layout} from './Layout/containers/Layout'
 export {default as SignInForm} from '././SignInForm/containers/SignInForm'
 export {default as SignUpForm} from './SignUpForm/containers/SignUpForm'
-export {default as ProfileMap} from './ProfileMap/Containers/ProfileMap'
+export {default as ProfileMap} from './ProfileMap/containers/ProfileMap'
 export {default as CreateProduct} from './CreateProduct/containers/CreateProduct'
+export {default as FarmerContainer} from './AddToMap/containers/FarmerContainer'
