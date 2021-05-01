@@ -1,28 +1,9 @@
 import mongoose from 'mongoose'
 
-const OwnerSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  lastname: {
-    type: String,
-    required: true,
-  },
-  avatar: {
-    type: String,
-    required: true,
-  },
-})
-
 const ProductSchema = new mongoose.Schema({
   owner: {
-    type: OwnerSchema,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
   },
   image: {
     type: String,
@@ -35,7 +16,7 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  count: {
+  coast: {
     type: Number,
     required: true,
   },

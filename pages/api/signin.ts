@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 import withSession from '../../lib/session'
 import dbConnect from '../../utils/dbConnect'
-import {User} from '../../models/User'
+import {User} from '../../models'
 
 type User = {
   name?: string

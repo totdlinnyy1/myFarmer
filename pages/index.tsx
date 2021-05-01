@@ -1,14 +1,12 @@
 import {NextPage} from 'next'
 import Image from 'next/image'
-import {useRouter} from 'next/router'
+import Router from 'next/router'
 import {Props} from 'next/dist/client/experimental-script'
 import {Layout} from '../modules'
 import style from '../styles/pages/Home.module.sass'
 import {Button} from '../components'
 
 const IndexPage: NextPage<Props> = () => {
-  const router = useRouter()
-
   return (
     <Layout title='Главная' loading={false}>
       <div className={style.container}>
@@ -37,11 +35,11 @@ const IndexPage: NextPage<Props> = () => {
             <div className={style.buttons}>
               <Button
                 text='Cтать фермером'
-                handleSubmit={() => router.push('/farmer-signup')}
+                handleSubmit={() => Router.push('/farmer-signup')}
               />
               <Button
                 text='Cделать заказ'
-                handleSubmit={() => router.push('/buyer-signup')}
+                handleSubmit={() => Router.push('/buyer-signup')}
                 className={style.buyerButton}
               />
             </div>

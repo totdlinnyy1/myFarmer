@@ -1,4 +1,5 @@
 import {useState} from 'react'
+import axios from 'axios'
 import {NewProductButton, Products, ModalContent} from '../components'
 import {ModalWindow} from '../../../components'
 import style from './CreateProduct.module.sass'
@@ -9,7 +10,14 @@ type CreateProductProps = {
 }
 
 const CreateProduct = ({id, fetchedProducts}: CreateProductProps) => {
+  const [products, setProducts] = useState(fetchedProducts)
   const [isOpen, setIsOpen] = useState(false)
+
+  const fetchData = async () => {
+    await axios('/api/farmer/product').then(response =>
+      setProducts(response.data)
+    )
+  }
 
   const handleClick = () => setIsOpen(!isOpen)
 
@@ -18,7 +26,7 @@ const CreateProduct = ({id, fetchedProducts}: CreateProductProps) => {
       <div className={style.title}>
         <h1>Мои товары</h1>
       </div>
-      <Products fetchedProducts={fetchedProducts} />
+      <Products fetchedProducts={products} />
       <NewProductButton onClick={handleClick} />
       <ModalWindow
         width={300}
@@ -27,7 +35,7 @@ const CreateProduct = ({id, fetchedProducts}: CreateProductProps) => {
         isOpen={isOpen}
         onClick={handleClick}
       >
-        <ModalContent id={id} setIsOpen={setIsOpen} />
+        <ModalContent id={id} setIsOpen={setIsOpen} fetchData={fetchData} />
       </ModalWindow>
     </div>
   )

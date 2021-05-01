@@ -1,5 +1,4 @@
 import {useState} from 'react'
-import Router from 'next/router'
 import axios from 'axios'
 import {Formik} from 'formik'
 import {toast} from 'react-hot-toast'
@@ -13,7 +12,7 @@ type FormErrors = {
   coast?: string
 }
 
-const ModalContent = ({id, setIsOpen}) => {
+const ModalContent = ({id, setIsOpen, fetchData}) => {
   const [selectedProduct, setSelectedProduct] = useState(null)
   return (
     <Formik
@@ -41,22 +40,22 @@ const ModalContent = ({id, setIsOpen}) => {
                     return url
                   })
                 await axios
-                  .post('/api/farmer/create-product', values)
+                  .post('/api/farmer/product', values)
                   .then(response => {
                     console.log(response.data)
                     if (response.statusText === 'OK') setIsOpen(false)
-                    Router.reload()
+                    fetchData()
                   })
                   .catch(error => console.error(error))
               },
             })
           } else {
             await axios
-              .post('/api/farmer/create-product', values)
+              .post('/api/farmer/product', values)
               .then(response => {
                 console.log(response.data)
                 if (response.statusText === 'OK') setIsOpen(false)
-                Router.reload()
+                fetchData()
               })
               .catch(error => console.error(error))
           }
