@@ -1,5 +1,7 @@
-import {Button} from '../../../../components'
+import {useState} from 'react'
 import {GiFarmTractor} from 'react-icons/gi'
+import {Button, ModalWindow} from '../../../../components'
+import {ModalUpdateContent} from '../index'
 import style from './Product.module.sass'
 
 type Product = {
@@ -12,9 +14,14 @@ type Product = {
 
 type ProductProps = {
   product: Product
+  fetchData: any
 }
 
-const Product = ({product}: ProductProps) => {
+const Product = ({product, fetchData}: ProductProps) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleClick = () => setIsOpen(!isOpen)
+
   return (
     <div className={style.container}>
       <div className={style.image}>
@@ -33,8 +40,21 @@ const Product = ({product}: ProductProps) => {
         <h3>{`${product.coast}р/${product.amount}`}</h3>
       </div>
       <div className={style.button}>
-        <Button text='Изменить' />
+        <Button text='Изменить' handleSubmit={handleClick} />
       </div>
+      <ModalWindow
+        width={240}
+        height={250}
+        title='Изменить'
+        isOpen={isOpen}
+        onClick={handleClick}
+      >
+        <ModalUpdateContent
+          setIsOpen={handleClick}
+          product={product}
+          fetchData={fetchData}
+        />
+      </ModalWindow>
     </div>
   )
 }

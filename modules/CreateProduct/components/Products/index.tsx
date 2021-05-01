@@ -1,14 +1,13 @@
 import style from './Products.module.sass'
 import {Product} from '../index'
 
-const Products = ({fetchedProducts}) => {
-  console.log(fetchedProducts)
+const Products = ({fetchedProducts, fetchData}) => {
   return (
     <div className={style.container}>
       {fetchedProducts.length ? (
         <div className={style.list}>
           {fetchedProducts.map((product, key) => (
-            <Product product={product} key={key} />
+            <Product product={product} key={key} fetchData={fetchData} />
           ))}
         </div>
       ) : (

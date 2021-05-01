@@ -43,7 +43,7 @@ const ModalContent = ({id, setIsOpen, fetchData}) => {
                   .post('/api/farmer/product', values)
                   .then(response => {
                     console.log(response.data)
-                    if (response.statusText === 'OK') setIsOpen(false)
+                    setIsOpen(false)
                     fetchData()
                   })
                   .catch(error => console.error(error))
@@ -54,7 +54,7 @@ const ModalContent = ({id, setIsOpen, fetchData}) => {
               .post('/api/farmer/product', values)
               .then(response => {
                 console.log(response.data)
-                if (response.statusText === 'OK') setIsOpen(false)
+                setIsOpen(false)
                 fetchData()
               })
               .catch(error => console.error(error))

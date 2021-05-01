@@ -26,7 +26,7 @@ const CreateProduct = ({id, fetchedProducts}: CreateProductProps) => {
       <div className={style.title}>
         <h1>Мои товары</h1>
       </div>
-      <Products fetchedProducts={products} />
+      <Products fetchedProducts={products} fetchData={fetchData} />
       <NewProductButton onClick={handleClick} />
       <ModalWindow
         width={300}
