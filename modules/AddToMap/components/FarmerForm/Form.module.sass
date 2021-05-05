@@ -43,7 +43,9 @@
   display: flex
   align-items: center
   justify-content: center
-
+  input
+    cursor: pointer
+    outline: none
 .productName
   width: 21%
 
@@ -54,6 +56,8 @@
     width: 100%
     border: 2px solid #CDCED9
     border-radius: 4px
+    &:disabled
+      background-color: #c9abab
     
 .amount
   width: 10%

@@ -1,17 +1,27 @@
+import {useState} from 'react'
 import {format, add} from 'date-fns'
-import style from './Form.module.sass'
+import InputMask from 'react-input-mask'
 import {Button} from '../../../../components'
+import style from './Form.module.sass'
 
-const FarmerForm = ({products}) => {
+const FarmerForm = ({products, handleSubmit}) => {
   const TODAY = format(new Date(), 'yyyy-MM-dd')
   const LAST_DAY = format(add(new Date(), {months: 2}), 'yyyy-MM-dd')
+
+  const [isProductActive, setActiveProducts] = useState([])
+
+  const handleActive = id => {
+    if (isProductActive.includes(id))
+      setActiveProducts(isProductActive.filter(item => item !== id))
+    else setActiveProducts([...isProductActive, id])
+  }
 
   return (
     <div>
       <div className={style.title}>
         <h1>Выставить товары</h1>
       </div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className={style.table}>
           <div className={style.tableHeader}>
             <div className={style.tableHeaderEl}>
@@ -25,13 +35,22 @@ const FarmerForm = ({products}) => {
             {products.map(product => (
               <div key={product._id} className={style.tableBodyEl}>
                 <div className={style.checkbox}>
-                  <input type='checkbox' />
+                  <input
+                    type='checkbox'
+                    onClick={() => handleActive(product._id)}
+                  />
                 </div>
                 <div className={style.productName}>
                   <p>{product.label}</p>
                 </div>
                 <div className={style.input}>
-                  <input type='text' placeholder='Колличество' />
+                  <InputMask
+                    mask='999'
+                    maskChar=''
+                    placeholder='Колличество'
+                    name={product._id}
+                    disabled={!isProductActive.includes(product._id)}
+                  />
                 </div>
                 <div className={style.amount}>
                   <p>{product.amount}</p>
@@ -43,12 +62,12 @@ const FarmerForm = ({products}) => {
         <div className={style.additionalData}>
           <div>
             <p>Адрес:</p>
-            <input type='text' placeholder='Адрес' />
+            <input type='text' name='address' placeholder='Адрес' />
             <a>Поставить метку</a>
           </div>
           <div>
             <p>Дата:</p>
-            <input type='date' min={TODAY} max={LAST_DAY} />
+            <input type='date' name='date' min={TODAY} max={LAST_DAY} />
           </div>
         </div>
         <div className={style.button}>
