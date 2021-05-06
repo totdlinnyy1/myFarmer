@@ -14,7 +14,7 @@ type MapProps = {
 
 const IndexMap = ({handleMapClick, placemarks}: MapProps) => {
   return (
-    <YMaps query={{apikey: '02130a82-c368-4497-b079-9609641139cd'}}>
+    <YMaps query={{apikey: process.env.Y_MAP_API_KEY}}>
       <div className={style.map}>
         <Map
           defaultState={{center: [55.75, 37.57], zoom: 9}}

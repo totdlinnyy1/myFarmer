@@ -21,7 +21,10 @@ const NewPage = ({fetchedProducts}) => {
     <Layout title={TITLE} loading={false}>
       <div className={style.container}>
         {isFarmer(user.role) ? (
-          <FarmerContainer products={JSON.parse(fetchedProducts)} />
+          <FarmerContainer
+            products={JSON.parse(fetchedProducts)}
+            id={user.id}
+          />
         ) : null}
       </div>
     </Layout>

@@ -4,11 +4,12 @@ import InputMask from 'react-input-mask'
 import {Button} from '../../../../components'
 import style from './Form.module.sass'
 
-const FarmerForm = ({products, handleSubmit}) => {
+const FarmerForm = ({products, handleSubmit, getCoordinates}) => {
   const TODAY = format(new Date(), 'yyyy-MM-dd')
   const LAST_DAY = format(add(new Date(), {months: 2}), 'yyyy-MM-dd')
 
   const [isProductActive, setActiveProducts] = useState([])
+  const [address, setAddress] = useState('')
 
   const handleActive = id => {
     if (isProductActive.includes(id))
@@ -37,6 +38,7 @@ const FarmerForm = ({products, handleSubmit}) => {
                 <div className={style.checkbox}>
                   <input
                     type='checkbox'
+                    name={product._id + 'check'}
                     onClick={() => handleActive(product._id)}
                   />
                 </div>
@@ -49,6 +51,7 @@ const FarmerForm = ({products, handleSubmit}) => {
                     maskChar=''
                     placeholder='Колличество'
                     name={product._id}
+                    requred={!isProductActive.includes(product._id)}
                     disabled={!isProductActive.includes(product._id)}
                   />
                 </div>
@@ -62,12 +65,23 @@ const FarmerForm = ({products, handleSubmit}) => {
         <div className={style.additionalData}>
           <div>
             <p>Адрес:</p>
-            <input type='text' name='address' placeholder='Адрес' />
-            <a>Поставить метку</a>
+            <input
+              type='text'
+              name='address'
+              placeholder='Адрес'
+              onChange={e => setAddress(e.currentTarget.value)}
+            />
+            <a onClick={() => getCoordinates(address)}>Поставить метку</a>
           </div>
           <div>
             <p>Дата:</p>
-            <input type='date' name='date' min={TODAY} max={LAST_DAY} />
+            <input
+              type='date'
+              name='date'
+              min={TODAY}
+              max={LAST_DAY}
+              required
+            />
           </div>
         </div>
         <div className={style.button}>
