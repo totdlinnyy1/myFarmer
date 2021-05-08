@@ -8,18 +8,16 @@ const FarmerMapProductSchema = new mongoose.Schema(
       required: true,
     },
     placemark: {
-      type: [
-        {
-          coordinates: {
-            type: [Number],
-            required: true,
-          },
-          address: {
-            type: String,
-            required: true,
-          },
+      type: {
+        coordinates: {
+          type: [Number],
+          required: true,
         },
-      ],
+        address: {
+          type: String,
+          required: true,
+        },
+      },
       required: true,
     },
     products: {
@@ -27,7 +25,7 @@ const FarmerMapProductSchema = new mongoose.Schema(
         {
           product: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Product',
+            refPath: 'products.product',
             required: true,
           },
           count: {

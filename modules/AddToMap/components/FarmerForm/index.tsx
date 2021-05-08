@@ -51,7 +51,7 @@ const FarmerForm = ({products, handleSubmit, getCoordinates}) => {
                     maskChar=''
                     placeholder='Колличество'
                     name={product._id}
-                    requred={!isProductActive.includes(product._id)}
+                    required
                     disabled={!isProductActive.includes(product._id)}
                   />
                 </div>

@@ -1,19 +1,16 @@
-import {NextPage, GetServerSideProps} from 'next'
-import {Props} from 'next/dist/client/experimental-script'
+import {GetServerSideProps} from 'next'
 import withSession from '../../lib/session'
 import dbConnect from '../../utils/dbConnect'
 import Order from '../../models/Order'
-import {Product} from '../../models'
+import {Product, FarmerMapProducts} from '../../models'
 import useUser from '../../lib/useUser'
 import role from '../../helpers/role'
 import isFarmer from '../../helpers/isFarmer'
-import {Layout, ProfileMap, CreateProduct} from '../../modules'
+import {Layout, ProfileMap, CreateProduct, FarmerTable} from '../../modules'
 import {ProfileComponent} from '../../components'
 import style from '../../styles/pages/Profile.module.sass'
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const Profile: NextPage<Props> = ({fetchedOrders, fetchedProducts}) => {
+const Profile = ({fetchedOrders, fetchedProducts, fetchedMapProducts}) => {
   const {user} = useUser({redirectTo: '/signin'})
 
   if (!user || user.isLoggedIn === false) {
@@ -39,6 +36,7 @@ const Profile: NextPage<Props> = ({fetchedOrders, fetchedProducts}) => {
         </div>
         {isFarmer(user.role) && (
           <div>
+            <FarmerTable mapProducts={JSON.parse(fetchedMapProducts)} />
             <CreateProduct
               id={user.id}
               fetchedProducts={JSON.parse(fetchedProducts)}
@@ -57,10 +55,15 @@ export const getServerSideProps: GetServerSideProps = withSession(
       await dbConnect()
       const fetchedOrders = await Order.find({status: 'В процессе'})
       const fetchedProducts = await Product.find({owner: user.id})
+      const fetchedMapProducts = await FarmerMapProducts.find({
+        owner: user.id,
+      }).populate({path: 'products.product', model: Product})
+      console.log(fetchedMapProducts)
       return {
         props: {
           fetchedOrders: JSON.stringify(fetchedOrders),
           fetchedProducts: JSON.stringify(fetchedProducts),
+          fetchedMapProducts: JSON.stringify(fetchedMapProducts),
         },
       }
     }
