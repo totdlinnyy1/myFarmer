@@ -11,7 +11,7 @@ type FarmerTableBodyProps = {
 const FarmerTableBody = ({mapProducts}: FarmerTableBodyProps) => {
   return (
     <div>
-      {mapProducts ? (
+      {!mapProducts ? (
         <div className={style.link}>
           <Link href='/new'>
             <a>Выставить товары на карту покупателей?</a>

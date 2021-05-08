@@ -58,7 +58,6 @@ export const getServerSideProps: GetServerSideProps = withSession(
       const fetchedMapProducts = await FarmerMapProducts.find({
         owner: user.id,
       }).populate({path: 'products.product', model: Product})
-      console.log(fetchedMapProducts)
       return {
         props: {
           fetchedOrders: JSON.stringify(fetchedOrders),
