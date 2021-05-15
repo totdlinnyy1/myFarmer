@@ -1,12 +1,13 @@
 import Router from 'next/router'
 import {Button, OrderBlock} from '../../../../components'
 import style from './List.module.sass'
+import {FC} from 'react'
 
-type ListProps = {
+interface ListProps {
   objects: any
   type: string
 }
-const List = (props: ListProps) => {
+const List: FC<ListProps> = props => {
   const HEADER = props.type === 'buyer' ? 'Продукты' : 'Заказы'
   const BUTTON_TEXT =
     props.type === 'buyer' ? 'Сделать заказ' : 'Выставить товар'

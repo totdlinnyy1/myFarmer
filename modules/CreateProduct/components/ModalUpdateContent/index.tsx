@@ -3,13 +3,30 @@ import {Formik} from 'formik'
 import {FaRegTrashAlt} from 'react-icons/fa'
 import {Button} from '../../../../components'
 import style from './ModalUpdateContent.module.sass'
+import {FC} from 'react'
 
 type FormErrors = {
   coast?: string
 }
 
-const ModalUpdateContent = ({product, setIsOpen, fetchData}) => {
-  const handleDelete = async () =>
+interface ModalUpdateContentProps {
+  fetchData: () => void
+  setIsOpen: (isOpen: boolean) => void
+  product: {
+    label: string
+    _id: string
+    image?: string
+    coast: number
+    amount: string
+  }
+}
+
+const ModalUpdateContent: FC<ModalUpdateContentProps> = ({
+  product,
+  setIsOpen,
+  fetchData,
+}) => {
+  const handleDelete: () => void = async () =>
     axios
       .delete('/api/farmer/product', {data: {id: product._id}})
       .then(response => {
@@ -37,7 +54,7 @@ const ModalUpdateContent = ({product, setIsOpen, fetchData}) => {
       validate={values => {
         const errors: FormErrors = {}
         if (!values.coast) errors.coast = 'Это обязательное поле'
-        else if (!/^\d+$/.test(values.coast))
+        else if (!/^\d+$/.test(values.coast.toString()))
           errors.coast = 'Недопустимый формат'
         return errors
       }}

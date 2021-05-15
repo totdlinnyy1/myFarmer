@@ -1,6 +1,7 @@
+import {FC} from 'react'
 import style from './TableHeader.module.sass'
 
-const FarmerTableHeader = () => {
+const FarmerTableHeader: FC = () => {
   return (
     <div className={style.header}>
       <div className={style.number}>

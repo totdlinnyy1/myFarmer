@@ -1,16 +1,15 @@
-import {ReactNode} from 'react'
+import {FC} from 'react'
 import Head from 'next/head'
 import {Toaster} from 'react-hot-toast'
 import {PuffLoader} from 'react-spinners'
 import {Header, Footer} from '../components'
 
-type LayoutProps = {
+interface LayoutProps {
   title: string
   loading: boolean
-  children?: ReactNode
 }
 
-const Layout = ({title, loading, children}: LayoutProps) => {
+const Layout: FC<LayoutProps> = ({title, loading, children}) => {
   return (
     <>
       <Head>

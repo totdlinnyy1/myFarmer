@@ -1,7 +1,12 @@
+import {FC} from 'react'
 import {FiPlus} from 'react-icons/fi'
 import style from './NewProductButton.module.sass'
 
-const NewProductButton = ({onClick}) => {
+interface NewProductButton {
+  onClick: () => void
+}
+
+const NewProductButton: FC<NewProductButton> = ({onClick}) => {
   return (
     <div className={style.container}>
       <div>

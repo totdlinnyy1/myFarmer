@@ -1,17 +1,21 @@
-import {GetServerSideProps} from 'next'
+import {GetServerSideProps, NextPage} from 'next'
 import useUser from '../lib/useUser'
 import isFarmer from '../helpers/isFarmer'
 import {FarmerContainer, Layout} from '../modules'
-import style from '../styles/pages/New.module.sass'
 import withSession from '../lib/session'
 import dbConnect from '../utils/dbConnect'
 import {Product} from '../models'
+import style from '../styles/pages/New.module.sass'
 
-const NewPage = ({fetchedProducts}) => {
+interface NewProps {
+  fetchedProducts: string
+}
+const NewPage: NextPage<NewProps> = ({fetchedProducts}) => {
   const {user} = useUser({redirectTo: '/signin'})
   if (!user || user.isLoggedIn === false) {
     return <Layout title='loading...' loading={true} />
   }
+  console.log(fetchedProducts)
 
   const TITLE = isFarmer(user.role)
     ? 'Добавить продукты на карту'

@@ -1,16 +1,18 @@
+import {FC, useEffect, useState} from 'react'
 import {Map, Placemark, YMaps, ZoomControl} from 'react-yandex-maps'
 import style from './Map.module.sass'
-import {useEffect, useState} from 'react'
 
-type MapComponentProps = {
+interface MapComponentProps {
   placemark: {
     coordinates: [number]
   }
 }
 
-const MapComponent = ({placemark}: MapComponentProps) => {
-  const [center, setCenter] = useState([55.75, 37.57])
-  const [placemarkCoordinates, setPlacemarkCoordinates] = useState(null)
+const MapComponent: FC<MapComponentProps> = ({placemark}) => {
+  const [center, setCenter] = useState<number[]>([55.75, 37.57])
+  const [placemarkCoordinates, setPlacemarkCoordinates] = useState<
+    number[] | null
+  >(null)
   useEffect(() => {
     if (placemark) {
       setPlacemarkCoordinates(placemark.coordinates)

@@ -1,17 +1,27 @@
-import {useState} from 'react'
+import {FC, FormEvent, useState} from 'react'
 import {format, add} from 'date-fns'
 import InputMask from 'react-input-mask'
 import {Button} from '../../../../components'
 import style from './Form.module.sass'
 
-const FarmerForm = ({products, handleSubmit, getCoordinates}) => {
+interface FarmerFormProps {
+  products: [{_id; owner; image; coast; value; label; amount; class}]
+  handleSubmit: (e: FormEvent<HTMLFormElement>) => void
+  getCoordinates: (address: string) => void
+}
+
+const FarmerForm: FC<FarmerFormProps> = ({
+  products,
+  handleSubmit,
+  getCoordinates,
+}) => {
   const TODAY = format(new Date(), 'yyyy-MM-dd')
   const LAST_DAY = format(add(new Date(), {months: 2}), 'yyyy-MM-dd')
 
   const [isProductActive, setActiveProducts] = useState([])
   const [address, setAddress] = useState('')
 
-  const handleActive = id => {
+  const handleActive: (id: string) => void = id => {
     if (isProductActive.includes(id))
       setActiveProducts(isProductActive.filter(item => item !== id))
     else setActiveProducts([...isProductActive, id])

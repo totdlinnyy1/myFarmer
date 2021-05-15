@@ -1,13 +1,18 @@
+import {FC} from 'react'
 import Select from 'react-select'
 import {groupedOptions} from './data/products'
 
-type SelectProductProps = {
+interface SelectProductProps {
   disabled: boolean
   onChange: any
   isMulti: boolean
 }
 
-const SelectProduct = ({disabled, onChange, isMulti}: SelectProductProps) => {
+const SelectProduct: FC<SelectProductProps> = ({
+  disabled,
+  onChange,
+  isMulti,
+}) => {
   const groupStyles = {
     display: 'flex',
     alignItems: 'center',

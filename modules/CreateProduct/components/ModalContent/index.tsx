@@ -1,9 +1,7 @@
-import {useState} from 'react'
+import {FC, useState} from 'react'
 import axios from 'axios'
 import {Formik} from 'formik'
 import {toast} from 'react-hot-toast'
-import Compressor from 'compressorjs'
-import {storage} from '../../../../utils/firebase'
 import {Button, SelectProduct} from '../../../../components'
 import style from './ModalContent.module.sass'
 
@@ -12,53 +10,48 @@ type FormErrors = {
   coast?: string
 }
 
-const ModalContent = ({id, setIsOpen, fetchData}) => {
+interface ModalContent {
+  id: string
+  setIsOpen: (isOpen: boolean) => void
+  fetchData: () => void
+}
+
+const ModalContent: FC<ModalContent> = ({id, setIsOpen, fetchData}) => {
   const [selectedProduct, setSelectedProduct] = useState(null)
   return (
     <Formik
       initialValues={{coast: '', image: ''}}
       onSubmit={async (values, props) => {
         if (selectedProduct) {
+          if (values.image !== '') {
+            const formData = new FormData()
+            formData.append('image', values.image)
+            console.log(formData)
+            await axios
+              .post('/api/upload-image', formData, {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                },
+              })
+              .then(response => {
+                values['image'] = response.data.url
+              })
+              .catch(console.error)
+          }
           values['id'] = id
           values['product'] = selectedProduct
-          if (values.image !== '') {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            new Compressor(values.image, {
-              quality: 0.5,
-              success: async result => {
-                const storageRef = storage.ref('/products')
-                const file: any = result
-                const name = id + Date.now()
-                const metaData = {
-                  contentType: file.type,
-                }
-                const task = storageRef.child(name).put(file, metaData)
-                values['image'] = await task
-                  .then(response => response.ref.getDownloadURL())
-                  .then(url => {
-                    return url
-                  })
-                await axios
-                  .post('/api/farmer/product', values)
-                  .then(response => {
-                    console.log(response.data)
-                    setIsOpen(false)
-                    fetchData()
-                  })
-                  .catch(error => console.error(error))
-              },
-            })
-          } else {
-            await axios
-              .post('/api/farmer/product', values)
-              .then(response => {
-                console.log(response.data)
+          await axios
+            .post('/api/farmer/product', values)
+            .then(response => {
+              if (response.status === 200) {
                 setIsOpen(false)
                 fetchData()
-              })
-              .catch(error => console.error(error))
-          }
+              }
+            })
+            .catch(error => {
+              console.error(error)
+              toast.error('Что-то пошло не так')
+            })
         } else {
           props.setSubmitting(false)
           toast.error('Выберете товар')

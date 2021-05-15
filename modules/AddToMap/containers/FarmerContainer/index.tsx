@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {FC, useState} from 'react'
 import Router from 'next/router'
 import axios from 'axios'
 import {toast} from 'react-hot-toast'
@@ -13,13 +13,16 @@ type FarmerContainerProps = {
 type body = {
   owner: string
   date: string
-  placemark: any
+  placemark: {
+    coordinates: number[]
+    address: string
+  }
   products: any
 }
 
-const FarmerContainer = ({products, id}: FarmerContainerProps) => {
+const FarmerContainer: FC<FarmerContainerProps> = ({products, id}) => {
   const [placemark, setPlacemark] = useState(null)
-  const handleSubmit = async e => {
+  const handleSubmit: (e: any) => void = async e => {
     e.preventDefault()
     if (placemark) {
       const body: body = {
@@ -50,7 +53,7 @@ const FarmerContainer = ({products, id}: FarmerContainerProps) => {
     } else toast.error('Поставьте метку')
   }
 
-  const getCoordinates = async address => {
+  const getCoordinates: (address: string) => void = async address => {
     if (address) {
       await axios(
         `https://geocode-maps.yandex.ru/1.x?geocode=${address}&apikey=02130a82-c368-4497-b079-9609641139cd&format=json`

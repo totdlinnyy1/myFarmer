@@ -1,25 +1,33 @@
-import {useState} from 'react'
+import {FC, useState} from 'react'
 import axios from 'axios'
 import {NewProductButton, Products, ModalContent} from '../components'
 import {ModalWindow} from '../../../components'
 import style from './CreateProduct.module.sass'
 
-type CreateProductProps = {
+interface CreateProductProps {
   id: string
-  fetchedProducts: any
+  fetchedProducts: [
+    {
+      _id: string
+      image?: string
+      label: string
+      coast: number
+      amount: string
+    }
+  ]
 }
 
-const CreateProduct = ({id, fetchedProducts}: CreateProductProps) => {
+const CreateProduct: FC<CreateProductProps> = ({id, fetchedProducts}) => {
   const [products, setProducts] = useState(fetchedProducts)
   const [isOpen, setIsOpen] = useState(false)
 
-  const fetchData = async () => {
+  const fetchData: () => void = async () => {
     await axios('/api/farmer/product').then(response =>
       setProducts(response.data)
     )
   }
 
-  const handleClick = () => setIsOpen(!isOpen)
+  const handleClick: () => void = () => setIsOpen(!isOpen)
 
   return (
     <div className={style.container}>

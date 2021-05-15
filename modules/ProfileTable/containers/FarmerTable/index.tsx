@@ -1,11 +1,20 @@
+import {FC} from 'react'
 import {FarmerTableBody, FarmerTableHeader} from '../../components'
 import style from './FarmerTable.module.sass'
 
-type FarmerTableProps = {
-  mapProducts: any
+interface FarmerTableProps {
+  mapProducts: [
+    {
+      _id: string
+      products: [{_id: string; product: {label: string}; count: number}]
+      placemark: {adrress: string; coordinates: number[]}
+      status: string
+    }
+  ]
 }
 
-const FarmerTable = ({mapProducts}: FarmerTableProps) => {
+const FarmerTable: FC<FarmerTableProps> = ({mapProducts}) => {
+  console.log(mapProducts)
   return (
     <div className={style.farmerTable}>
       <h1>Выставленные товары</h1>

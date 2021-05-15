@@ -1,12 +1,13 @@
+import {FC} from 'react'
 import {IndexMap, List} from '../components'
 import style from './ProfileMap.module.sass'
 
-type ProfileMapProps = {
-  MapObjects: any
+interface ProfileMapProps {
+  MapObjects: [number][]
   type: string
 }
 
-const ProfileMap = ({MapObjects, type}: ProfileMapProps) => {
+const ProfileMap: FC<ProfileMapProps> = ({MapObjects, type}) => {
   return (
     <div className={style.container}>
       <div className={style.data}>

@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {FC, useState} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {useRouter, NextRouter} from 'next/router'
@@ -7,7 +7,7 @@ import useUser from '../../../../lib/useUser'
 import fetchJson from '../../../../lib/fetchJson'
 import style from './Header.module.sass'
 
-const Header = () => {
+const Header: FC = () => {
   const {user, mutateUser} = useUser()
 
   const router: NextRouter = useRouter()
@@ -15,7 +15,8 @@ const Header = () => {
   const [show, setShow] = useState<boolean>(false)
   const [toggleClass, setToggleClass] = useState<string>(style.toggle)
 
-  const cx = (...classNames: string[]) => classNames.join(' ')
+  const cx: (...classNames: string[]) => string = (...classNames) =>
+    classNames.join(' ')
 
   const showNav: () => void = () => {
     if (show) {

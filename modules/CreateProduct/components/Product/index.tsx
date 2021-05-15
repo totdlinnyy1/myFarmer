@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {FC, useState} from 'react'
 import {GiFarmTractor} from 'react-icons/gi'
 import {Button, ModalWindow} from '../../../../components'
 import {ModalUpdateContent} from '../index'
@@ -6,21 +6,21 @@ import style from './Product.module.sass'
 
 type Product = {
   label: string
-  id: string
-  image: string
+  _id: string
+  image?: string
   coast: number
   amount: string
 }
 
-type ProductProps = {
+interface ProductProps {
   product: Product
-  fetchData: any
+  fetchData: () => void
 }
 
-const Product = ({product, fetchData}: ProductProps) => {
+const Product: FC<ProductProps> = ({product, fetchData}) => {
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleClick = () => setIsOpen(!isOpen)
+  const handleClick: () => void = () => setIsOpen(!isOpen)
 
   return (
     <div className={style.container}>

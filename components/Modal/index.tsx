@@ -1,25 +1,24 @@
-import {ReactNode} from 'react'
+import {FC} from 'react'
 import Modal from 'react-modal'
 import {IoClose} from 'react-icons/io5'
 import style from './ModalWindow.module.sass'
 
-type ModalWindowProps = {
+interface ModalWindowProps {
   width: number
   height: number
   title: string
   isOpen: boolean
   onClick: any
-  children: ReactNode
 }
 
-const ModalWindow = ({
+const ModalWindow: FC<ModalWindowProps> = ({
   width,
   height,
   title,
   isOpen,
   onClick,
   children,
-}: ModalWindowProps) => {
+}) => {
   return (
     <Modal
       isOpen={isOpen}

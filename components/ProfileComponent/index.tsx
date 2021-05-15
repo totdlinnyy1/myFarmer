@@ -2,8 +2,9 @@ import Link from 'next/link'
 import {FiEdit2} from 'react-icons/fi'
 import Avatar from '../Avatar'
 import style from './Profile.module.sass'
+import {FC} from 'react'
 
-type ProfileProps = {
+interface ProfileProps {
   name: string
   lastname: string
   avatar: string | null
@@ -12,14 +13,14 @@ type ProfileProps = {
   color: string
 }
 
-const ProfileComponent = ({
+const ProfileComponent: FC<ProfileProps> = ({
   name,
   lastname,
   avatar,
   editable,
   role,
   color,
-}: ProfileProps) => {
+}) => {
   return (
     <div className={style.profile}>
       <div className={style.avatar}>

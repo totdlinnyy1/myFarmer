@@ -1,24 +1,31 @@
-type error = {
+type response = {
+  name?: string
+  lastname?: string
+  avatar?: string
+  email?: string
+  phone?: string
+  role?: string
+  _id?: string
+  hash?: string
+  salt?: string
   response?: any
   data?: any
-  message: string
+  message?: string
 }
 
-export default async function fetcher(...args: any) {
+export default async function fetcher(
+  ...args: [input: RequestInfo, init?: RequestInit]
+) {
   try {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     const response = await fetch(...args)
 
-    // if the server replies, there's always some data in json
-    // if there's a network error, it will throw at the previous line
-    const data = await response.json()
+    const data: response = await response.json()
 
     if (response.ok) {
       return data
     }
 
-    const error: error = new Error(data.statusText)
+    const error: response = new Error(response.statusText)
     error.response = data
     error.data = data.data
     throw error

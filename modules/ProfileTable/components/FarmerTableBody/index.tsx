@@ -1,14 +1,22 @@
+import {FC} from 'react'
 import Link from 'next/link'
 import {BiShowAlt} from 'react-icons/bi'
 import {AiTwotoneDelete} from 'react-icons/ai'
 import status from '../../../../helpers/status'
 import style from './TableBody.module.sass'
 
-type FarmerTableBodyProps = {
-  mapProducts: any
+interface FarmerTableBodyProps {
+  mapProducts: [
+    {
+      _id: string
+      products: [{_id: string; product: {label: string}; count: number}]
+      placemark: {adrress: string; coordinates: number[]}
+      status: string
+    }
+  ]
 }
 
-const FarmerTableBody = ({mapProducts}: FarmerTableBodyProps) => {
+const FarmerTableBody: FC<FarmerTableBodyProps> = ({mapProducts}) => {
   return (
     <div>
       {!mapProducts.length ? (
@@ -33,7 +41,7 @@ const FarmerTableBody = ({mapProducts}: FarmerTableBodyProps) => {
                 ))}
               </div>
               <div className={style.address}>
-                <p>{mapProduct.placemark.address}</p>
+                <p>{mapProduct.placemark.adrress}</p>
               </div>
               <div className={style.status}>
                 <p>{status(mapProduct.status)}</p>

@@ -1,6 +1,7 @@
 import {FormikProps, Form, Field} from 'formik'
 import style from '../../../styles/components/InnerForm.module.sass'
 import {Button} from '../../../components'
+import {FC} from 'react'
 
 // Shape of form values
 interface FormValues {
@@ -9,7 +10,7 @@ interface FormValues {
 }
 
 // Aside: You may see InjectedFormikProps<OtherProps, FormValues> instead of what comes below in older code.. InjectedFormikProps was artifact of when Formik only exported a HoC. It is also less flexible as it MUST wrap all props (it passes them through).
-const InnerForm = (props: FormikProps<FormValues>) => {
+const InnerForm: FC<FormikProps<FormValues>> = props => {
   const {touched, errors, isSubmitting} = props
   return (
     <Form className={style.form}>

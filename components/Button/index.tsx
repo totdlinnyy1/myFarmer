@@ -1,6 +1,7 @@
 import style from './Button.module.sass'
+import {FC} from 'react'
 
-type ButtonProps = {
+interface ButtonProps {
   text: string
   handleSubmit?: any
   className?: string
@@ -8,21 +9,22 @@ type ButtonProps = {
   disabled?: boolean
 }
 
-const Button = ({
+const Button: FC<ButtonProps> = ({
   text,
   handleSubmit,
   className,
   type,
   disabled,
-}: ButtonProps) => {
-  const cx = (...classNames: string[]) => classNames.join(' ')
+}) => {
+  const cx: (...classNames: string[]) => string = (...classNames: string[]) =>
+    classNames.join(' ')
 
   return (
     <button
       className={cx(style.button, className && className)}
-      onClick={handleSubmit && handleSubmit}
-      type={type && type}
-      disabled={disabled && disabled}
+      onClick={handleSubmit}
+      type={type}
+      disabled={disabled}
     >
       {text}
     </button>

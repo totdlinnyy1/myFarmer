@@ -1,4 +1,4 @@
-import {GetServerSideProps} from 'next'
+import {GetServerSideProps, NextPage} from 'next'
 import withSession from '../../lib/session'
 import dbConnect from '../../utils/dbConnect'
 import Order from '../../models/Order'
@@ -10,7 +10,17 @@ import {Layout, ProfileMap, CreateProduct, FarmerTable} from '../../modules'
 import {ProfileComponent} from '../../components'
 import style from '../../styles/pages/Profile.module.sass'
 
-const Profile = ({fetchedOrders, fetchedProducts, fetchedMapProducts}) => {
+interface ProfileProps {
+  fetchedOrders: string
+  fetchedProducts: string
+  fetchedMapProducts: string
+}
+
+const Profile: NextPage<ProfileProps> = ({
+  fetchedOrders,
+  fetchedProducts,
+  fetchedMapProducts,
+}) => {
   const {user} = useUser({redirectTo: '/signin'})
 
   if (!user || user.isLoggedIn === false) {

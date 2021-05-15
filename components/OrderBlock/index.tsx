@@ -1,7 +1,8 @@
-import style from './OrderBlock.module.sass'
+import {FC} from 'react'
 import {Avatar, Button} from '../index'
+import style from './OrderBlock.module.sass'
 
-type OrderBlockProps = {
+interface OrderBlockProps {
   type: string
   avatar: string
   fullName: string
@@ -9,7 +10,7 @@ type OrderBlockProps = {
   handleClick: any
 }
 
-const OrderBlock = (props: OrderBlockProps) => {
+const OrderBlock: FC<OrderBlockProps> = props => {
   if (props.type === 'farmer') {
     return (
       <div className={style.container}>

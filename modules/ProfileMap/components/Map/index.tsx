@@ -1,3 +1,4 @@
+import {FC} from 'react'
 import {
   YMaps,
   Map,
@@ -7,12 +8,12 @@ import {
 } from 'react-yandex-maps'
 import style from './IndexMap.module.sass'
 
-type MapProps = {
-  handleMapClick: any
+interface MapProps {
+  handleMapClick: () => void
   placemarks: any
 }
 
-const IndexMap = ({handleMapClick, placemarks}: MapProps) => {
+const IndexMap: FC<MapProps> = ({handleMapClick, placemarks}) => {
   return (
     <YMaps query={{apikey: '02130a82-c368-4497-b079-9609641139cd'}}>
       <div className={style.map}>

@@ -1,7 +1,21 @@
-import style from './Products.module.sass'
+import {FC} from 'react'
 import {Product} from '../index'
+import style from './Products.module.sass'
 
-const Products = ({fetchedProducts, fetchData}) => {
+interface ProductsProps {
+  fetchedProducts: [
+    {
+      _id: string
+      image?: string
+      label: string
+      coast: number
+      amount: string
+    }
+  ]
+  fetchData: () => void
+}
+
+const Products: FC<ProductsProps> = ({fetchedProducts, fetchData}) => {
   return (
     <div className={style.container}>
       {fetchedProducts.length ? (
