@@ -1,8 +1,7 @@
 import {FC} from 'react'
 import Head from 'next/head'
-import {Toaster} from 'react-hot-toast'
-import {PuffLoader} from 'react-spinners'
 import {Header, Footer} from '../components'
+import {Box, Center, Spinner} from '@chakra-ui/react'
 
 interface LayoutProps {
   title: string
@@ -11,37 +10,22 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({title, loading, children}) => {
   return (
-    <>
+    <Box bg='gray.200'>
       <Head>
         <title>{title}</title>
       </Head>
-      <Toaster
-        toastOptions={{
-          style: {
-            margin: '150px',
-          },
-        }}
-      />
       <Header />
-      <main>
+      <Box m='20px 0'>
         {loading ? (
-          <div
-            style={{
-              width: '100%',
-              height: 800,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <PuffLoader size={150} color='#fff' />
-          </div>
+          <Center h='600px'>
+            <Spinner size='xl' />
+          </Center>
         ) : (
           children
         )}
-      </main>
+      </Box>
       <Footer />
-    </>
+    </Box>
   )
 }
 

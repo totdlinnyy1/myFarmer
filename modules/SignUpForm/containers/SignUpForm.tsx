@@ -1,20 +1,22 @@
 import {withFormik, FormikErrors} from 'formik'
-import {toast} from 'react-hot-toast'
 import InnerForm from '../components/InnerForm'
 import fetchJson from '../../../lib/fetchJson'
 
 interface FormValues {
   name: string
   lastname: string
-  phone: string
+  number: string
   email: string
   password: string
   rpassword: string
+  farmer: boolean | string
+  access: boolean
 }
 
 interface MyFormProps {
-  role: string
   mutateUser: any
+  toast: any
+  farmer: boolean
 }
 
 const SignUpForm = withFormik<MyFormProps, FormValues>({
@@ -30,9 +32,9 @@ const SignUpForm = withFormik<MyFormProps, FormValues>({
     if (!values.password) {
       errors.password = 'Обязательное поле'
     } else if (values.password.length < 6) {
-      errors.password = 'Парольдолжен не может быть меньше 6 символов'
-    } else if (values.password.length > 12) {
-      errors.password = 'Парольдолжен не может быть больше 12 символов'
+      errors.password = 'Пароль не может быть меньше 6 символов'
+    } else if (values.password.length > 16) {
+      errors.password = 'Пароль не может быть больше 16 символов'
     }
     if (!values.name) {
       errors.name = 'Обязательное поле'
@@ -49,14 +51,24 @@ const SignUpForm = withFormik<MyFormProps, FormValues>({
     } else if (values.rpassword !== values.password) {
       errors.rpassword = 'Пароли не совпадают'
     }
-    if (!values.phone) {
-      errors.phone = 'Обязательное поле'
+    if (!values.number) {
+      errors.number = 'Обязательное поле'
+    }
+    if (values.number && values.number.includes('_')) {
+      errors.number = 'Номер телефона введен не верно'
+    }
+    if (!values.access) {
+      errors.access = 'Это поле должно быть отмечено'
     }
     return errors
   },
 
   handleSubmit: async (values, props) => {
-    console.log(values)
+    if (values.farmer) {
+      values['role'] = 'farmer'
+    } else values['role'] = 'buyer'
+    delete values['rpassword']
+    delete values['access']
     try {
       await props.props.mutateUser(
         fetchJson('/api/signup', {
@@ -68,7 +80,11 @@ const SignUpForm = withFormik<MyFormProps, FormValues>({
     } catch (error) {
       props.setSubmitting(false)
       if (error.data) {
-        toast.error(error.data)
+        props.props.toast({
+          title: error.data,
+          status: 'error',
+          position: 'bottom-right',
+        })
       }
     }
   },

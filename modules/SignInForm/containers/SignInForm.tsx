@@ -1,10 +1,10 @@
 import {withFormik, FormikErrors} from 'formik'
-import {toast} from 'react-hot-toast'
 import InnerForm from '../components/InnerForm'
 import fetchJson from '../../../lib/fetchJson'
 
 interface MyFormProps {
   mutateUser: any
+  toast: any
 }
 
 interface FormValues {
@@ -39,7 +39,11 @@ const SignInForm = withFormik<MyFormProps, FormValues>({
       )
     } catch (error) {
       props.setSubmitting(false)
-      toast.error(error.data)
+      props.props.toast({
+        title: error.data,
+        status: 'error',
+        position: 'bottom-right',
+      })
     }
   },
 })(InnerForm)

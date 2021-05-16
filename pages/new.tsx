@@ -5,11 +5,11 @@ import {FarmerContainer, Layout} from '../modules'
 import withSession from '../lib/session'
 import dbConnect from '../utils/dbConnect'
 import {Product} from '../models'
-import style from '../styles/pages/New.module.sass'
 
 interface NewProps {
   fetchedProducts: string
 }
+
 const NewPage: NextPage<NewProps> = ({fetchedProducts}) => {
   const {user} = useUser({redirectTo: '/signin'})
   if (!user || user.isLoggedIn === false) {
@@ -23,7 +23,7 @@ const NewPage: NextPage<NewProps> = ({fetchedProducts}) => {
 
   return (
     <Layout title={TITLE} loading={false}>
-      <div className={style.container}>
+      <div>
         {isFarmer(user.role) ? (
           <FarmerContainer
             products={JSON.parse(fetchedProducts)}

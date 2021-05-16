@@ -1,9 +1,10 @@
 import App from 'next/app'
 import type {AppProps, AppContext} from 'next/app'
 import {SWRConfig} from 'swr'
+import {ChakraProvider} from '@chakra-ui/react'
 import fetchJson from '../lib/fetchJson'
 import {NextNProgress} from '../components'
-import '../styles/index.sass'
+import theme from '../utils/theme'
 
 function MyApp({Component, pageProps}: AppProps) {
   return (
@@ -12,8 +13,10 @@ function MyApp({Component, pageProps}: AppProps) {
         fetcher: fetchJson,
       }}
     >
-      <NextNProgress />
-      <Component {...pageProps} />
+      <ChakraProvider theme={theme}>
+        <NextNProgress />
+        <Component {...pageProps} />
+      </ChakraProvider>
     </SWRConfig>
   )
 }

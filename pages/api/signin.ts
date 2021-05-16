@@ -8,7 +8,7 @@ type User = {
   lastname?: string
   avatar?: string
   email?: string
-  phone?: string
+  number?: string
   role?: string
   _id?: string
   hash?: string
@@ -39,7 +39,7 @@ export default withSession(async (req, res) => {
           lastname: user.lastname,
           avatar: user.avatar ? user.avatar : null,
           email: user.email,
-          phone: user.phone,
+          number: user.number,
           role: user.role,
           id: user._id,
         }

@@ -1,11 +1,11 @@
 import {FC} from 'react'
-import style from './Footer.module.sass'
+import {Box, Heading} from '@chakra-ui/react'
 
 const Footer: FC = () => {
   return (
-    <footer className={style.footer}>
-      <h1>Подвал</h1>
-    </footer>
+    <Box position='relative' bottom='0' h='300px' bg='gray.800'>
+      <Heading>Подвал</Heading>
+    </Box>
   )
 }
 

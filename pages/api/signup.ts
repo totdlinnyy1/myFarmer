@@ -8,7 +8,7 @@ type User = {
   lastname?: string
   avatar?: string
   email?: string
-  phone?: string
+  number?: string
   role?: string
   _id?: string
   hash?: string
@@ -22,7 +22,7 @@ type error = {
 }
 
 export default withSession(async (req, res) => {
-  const {email, password, role, name, lastname, phone} = await req.body
+  const {email, password, role, name, lastname, number} = await req.body
 
   try {
     // we check that the user exists on GitHub and store some data in session
@@ -33,14 +33,14 @@ export default withSession(async (req, res) => {
       const hash = await crypto
         .pbkdf2Sync(password, salt, 1000, 64, 'sha512')
         .toString('hex')
-      const user = new User({email, name, lastname, phone, role, hash, salt})
+      const user = new User({email, name, lastname, number, role, hash, salt})
       const task: User = await user.save()
       const session = {
         isLoggedIn: true,
         name: task.name,
         lastname: task.lastname,
         email: task.email,
-        phone: task.phone,
+        number: task.number,
         role: task.role,
         id: task._id,
         avatar: task.avatar ? task.avatar : null,

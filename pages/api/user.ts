@@ -10,18 +10,22 @@ type User = {
 }
 export default withSession(async (req, res) => {
   const user = req.session.get('user')
-  await dbConnect()
-  const dbUser: User = await User.findById(user.id)
-  if (user && dbUser) {
-    user['avatar'] =
-      user.avatar && user.avatar === dbUser.avatar ? user.avatar : dbUser.avatar
-    user['name'] = user.name === dbUser.name ? user.name : dbUser.name
-    user['lastname'] =
-      user.lastname === dbUser.lastname ? user.lastname : dbUser.lastname
-    res.json({
-      isLoggedIn: true,
-      ...user,
-    })
+  if (user && user.id) {
+    await dbConnect()
+    const dbUser: User = await User.findById(user.id)
+    if (dbUser) {
+      user['avatar'] =
+        user.avatar && user.avatar === dbUser.avatar
+          ? user.avatar
+          : dbUser.avatar
+      user['name'] = user.name === dbUser.name ? user.name : dbUser.name
+      user['lastname'] =
+        user.lastname === dbUser.lastname ? user.lastname : dbUser.lastname
+      res.json({
+        isLoggedIn: true,
+        ...user,
+      })
+    }
   } else {
     res.json({
       isLoggedIn: false,

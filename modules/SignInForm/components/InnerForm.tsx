@@ -1,50 +1,92 @@
 import {FormikProps, Form, Field} from 'formik'
-import style from '../../../styles/components/InnerForm.module.sass'
-import {Button} from '../../../components'
-import {FC} from 'react'
+import Link from 'next/link'
+import {FC, useState} from 'react'
+import {
+  FormControl,
+  FormLabel,
+  Button,
+  Input,
+  FormErrorMessage,
+  InputRightElement,
+  Icon,
+  InputGroup,
+  Flex,
+} from '@chakra-ui/react'
+import {BiShow, BiHide} from 'react-icons/bi'
 
-// Shape of form values
 interface FormValues {
   email: string
   password: string
 }
 
-// Aside: You may see InjectedFormikProps<OtherProps, FormValues> instead of what comes below in older code.. InjectedFormikProps was artifact of when Formik only exported a HoC. It is also less flexible as it MUST wrap all props (it passes them through).
 const InnerForm: FC<FormikProps<FormValues>> = props => {
-  const {touched, errors, isSubmitting} = props
+  const {isSubmitting} = props
+  const [show, setShow] = useState<boolean>(false)
+  const handleClick: () => void = () => setShow(!show)
   return (
-    <Form className={style.form}>
-      <div>
-        <p>Email:</p>
-        <Field
-          type='text'
-          name='email'
-          className={style.input}
-          placeholder='example@email.com'
-          disabled={isSubmitting}
-        />
-      </div>
-      <div className={style.error}>
-        {touched.email && errors.email && <p>{errors.email}</p>}
-      </div>
+    <Form>
+      <Field name='email' validate='email'>
+        {({field, form}) => (
+          <FormControl
+            id='email'
+            mb={5}
+            isInvalid={form.errors.email && form.touched.email}
+          >
+            <FormLabel>Email:</FormLabel>
+            <Input
+              {...field}
+              type='email'
+              placeholder='example@email.com'
+              disabled={isSubmitting}
+              maxLength={50}
+            />
+            <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+          </FormControl>
+        )}
+      </Field>
+      <Field name='password' validate='password'>
+        {({field, form}) => (
+          <FormControl
+            id='password'
+            mb={5}
+            isInvalid={form.errors.password && form.touched.password}
+          >
+            <FormLabel>Пароль:</FormLabel>
+            <InputGroup>
+              <Input
+                {...field}
+                type={show ? 'text' : 'password'}
+                placeholder='Пароль'
+                disabled={isSubmitting}
+                maxLength={20}
+              />
+              <InputRightElement width='4.5rem'>
+                <Button h='1.75rem' size='sm' onClick={handleClick}>
+                  {show ? <Icon as={BiShow} /> : <Icon as={BiHide} />}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+            <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+          </FormControl>
+        )}
+      </Field>
 
-      <div>
-        <p>Пароль:</p>
-        <Field
-          type='password'
-          name='password'
-          className={style.input}
-          placeholder='Пароль'
+      <Flex align='center' justifyContent='space-between'>
+        <Button
+          type='submit'
+          colorScheme='red'
+          isLoading={isSubmitting}
           disabled={isSubmitting}
-        />
-      </div>
-      <div className={style.error}>
-        {touched.password && errors.password && <p>{errors.password}</p>}
-      </div>
-
-      <div className={style.loginButton}>
-        <Button text='Войти' type='submit' disabled={isSubmitting} />
-      </div>
+          size='lg'
+        >
+          Войти
+        </Button>
+        <Link href='/'>
+          <a>
+            <Button variant='link'>Забыли пароль?</Button>
+          </a>
+        </Link>
+      </Flex>
     </Form>
   )
 }

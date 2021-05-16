@@ -1,107 +1,229 @@
 import {FC, useState} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import {useRouter, NextRouter} from 'next/router'
-import {Button} from '../../../../components'
-import useUser from '../../../../lib/useUser'
+import Router from 'next/router'
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  Heading,
+  HStack,
+  Icon,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+  useDisclosure,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerHeader,
+  VStack,
+  DrawerBody,
+} from '@chakra-ui/react'
+import {VscMenu} from 'react-icons/vsc'
+import MediaQuery from 'react-responsive'
 import fetchJson from '../../../../lib/fetchJson'
-import style from './Header.module.sass'
+import useUser from '../../../../lib/useUser'
 
 const Header: FC = () => {
   const {user, mutateUser} = useUser()
 
-  const router: NextRouter = useRouter()
-
-  const [show, setShow] = useState<boolean>(false)
-  const [toggleClass, setToggleClass] = useState<string>(style.toggle)
-
-  const cx: (...classNames: string[]) => string = (...classNames) =>
-    classNames.join(' ')
-
-  const showNav: () => void = () => {
-    if (show) {
-      setShow(false)
-      setToggleClass(style.toggle)
-      document.body.style.overflowY = 'show'
-    } else {
-      setShow(true)
-      setToggleClass(cx(style.toggle, style.open))
-      document.body.style.overflowY = 'hidden'
-    }
-  }
+  const {onOpen, onClose, isOpen} = useDisclosure()
+  const [loading, setLoading] = useState<boolean>(false)
 
   return (
-    <header className={style.header}>
-      <nav>
-        <div className={style.logo}>
-          <Link href='/'>
-            <a>
-              <Image src='/logo.png' width={150} height={130} />
-            </a>
-          </Link>
-        </div>
-        <div className={toggleClass}>
-          <div className={style.navLinks}>
-            <div className={style.link}>
-              <Link href='/'>
-                <a>На главную</a>
-              </Link>
-            </div>
-            <div className={style.link}>
-              <Link href='/'>
-                <a>О нас</a>
-              </Link>
-            </div>
-            <div className={style.link}>
-              <Link href='/'>
-                <a>Продукты</a>
-              </Link>
-            </div>
-            <div className={style.link}>
-              <Link href='/'>
-                <a>Фермеры</a>
-              </Link>
-            </div>
-            <div className={style.link}>
-              <Link href='/'>
-                <a>Контакты</a>
-              </Link>
-            </div>
-          </div>
-          {user?.isLoggedIn ? (
-            <div className={style.logout}>
-              <Button
-                handleSubmit={() => router.push('/profile')}
-                text='Личный кабинет'
-              />
-              <a
-                href='/api/logout'
-                onClick={async e => {
-                  e.preventDefault()
-                  await mutateUser(fetchJson('/api/logout'))
-                  await router.push('/signin')
-                }}
-              >
-                <p>Выйти</p>
+    <Box shadow='md' bg='white'>
+      <Container maxW='container.xl' px='0'>
+        <Flex
+          h={100}
+          w='100%'
+          alignItems='center'
+          justifyContent='space-between'
+        >
+          <Flex alignItems='center'>
+            <Link href='/'>
+              <a>
+                <HStack spacing='20px' align='center'>
+                  <Box>
+                    <Image src='/logo.png' width={100} height={80} />
+                  </Box>
+                  <MediaQuery minDeviceWidth={360}>
+                    <Box>
+                      <Heading as='h5' size='md'>
+                        Мой Фермер
+                      </Heading>
+                    </Box>
+                  </MediaQuery>
+                </HStack>
               </a>
-            </div>
-          ) : (
-            <div className={style.loginButton}>
-              <Button
-                text='Войти'
-                handleSubmit={() => router.push('/signin')}
-              />
-            </div>
-          )}
-        </div>
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-        <div className={style.burger} onClick={showNav}>
-          <div className='line1' />
-          <div className='line2' />
-          <div className='line3' />
-        </div>
-      </nav>
-    </header>
+            </Link>
+            <MediaQuery maxDeviceWidth={929} minDeviceWidth={690}>
+              <Box ml={5}>
+                <Menu>
+                  <MenuButton
+                    as={Button}
+                    variant='ghost'
+                    rightIcon={<Icon as={VscMenu} boxSize={6} />}
+                  >
+                    Меню
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem>
+                      <Link href='/'>
+                        <a>
+                          <Text>Главная</Text>
+                        </a>
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Text>Продукты</Text>
+                    </MenuItem>
+                    <MenuItem>
+                      <Text>Фермеры</Text>
+                    </MenuItem>
+                    <MenuItem>
+                      <Text>О нас</Text>
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+              </Box>
+            </MediaQuery>
+          </Flex>
+          <MediaQuery minDeviceWidth={930}>
+            <HStack>
+              <Link href='/'>
+                <a>
+                  <Button variant='ghost'>Главная</Button>
+                </a>
+              </Link>
+              <Button variant='ghost'>Продукты</Button>
+              <Button variant='ghost'>Фермеры</Button>
+              <Button variant='ghost'>О нас</Button>
+            </HStack>
+          </MediaQuery>
+          <MediaQuery minDeviceWidth={690}>
+            {user?.isLoggedIn ? (
+              <HStack>
+                <Link href='/profile'>
+                  <a>
+                    <Button size='lg' colorScheme='red'>
+                      Личный кабинет
+                    </Button>
+                  </a>
+                </Link>
+                <a
+                  href='/api/logout'
+                  onClick={async e => {
+                    e.preventDefault()
+                    setLoading(true)
+                    await mutateUser(fetchJson('/api/logout'))
+                    await Router.push('/signin')
+                  }}
+                >
+                  <Button variant='link' isLoading={loading}>
+                    Выйти
+                  </Button>
+                </a>
+              </HStack>
+            ) : (
+              <HStack>
+                <Link href='/signin'>
+                  <a>
+                    <Button size='lg'>Войти</Button>
+                  </a>
+                </Link>
+                <Link href='/signup'>
+                  <a>
+                    <Button size='lg' colorScheme='red'>
+                      Регистрация
+                    </Button>
+                  </a>
+                </Link>
+              </HStack>
+            )}
+          </MediaQuery>
+          <MediaQuery maxDeviceWidth={689}>
+            <Button p={2} variant='ghost' onClick={onOpen}>
+              <Icon as={VscMenu} boxSize={10} />
+            </Button>
+          </MediaQuery>
+        </Flex>
+      </Container>
+      <Drawer onClose={onClose} isOpen={isOpen} placement='right'>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader>
+            <Flex
+              w='100%'
+              p={5}
+              justifyContent='space-between'
+              alignItems='center'
+            >
+              <Heading as='h6' size='md'>
+                Мой Фермер
+              </Heading>
+              <Button p={2} variant='ghost' onClick={onClose}>
+                <Icon as={VscMenu} boxSize={10} />
+              </Button>
+            </Flex>
+          </DrawerHeader>
+          <DrawerBody>
+            <Box mb={10}>
+              {user?.isLoggedIn ? (
+                <VStack>
+                  <Link href='/profile'>
+                    <a>
+                      <Button size='lg' colorScheme='red'>
+                        Личный кабинет
+                      </Button>
+                    </a>
+                  </Link>
+                  <a
+                    href='/api/logout'
+                    onClick={async e => {
+                      e.preventDefault()
+                      setLoading(true)
+                      await mutateUser(fetchJson('/api/logout'))
+                      await Router.push('/signin')
+                    }}
+                  >
+                    <Button variant='link' isLoading={loading}>
+                      Выйти
+                    </Button>
+                  </a>
+                </VStack>
+              ) : (
+                <VStack>
+                  <Link href='/signup'>
+                    <a>
+                      <Button size='lg' colorScheme='red'>
+                        Регистрация
+                      </Button>
+                    </a>
+                  </Link>
+                  <Link href='/signin'>
+                    <a>
+                      <Button size='lg'>Войти</Button>
+                    </a>
+                  </Link>
+                </VStack>
+              )}
+            </Box>
+            <VStack>
+              <Link href='/'>
+                <Button variant='ghost'>Главная</Button>
+              </Link>
+              <Button variant='ghost'>Продукты</Button>
+              <Button variant='ghost'>Фермеры</Button>
+              <Button variant='ghost'>О нас</Button>
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    </Box>
   )
 }
 
