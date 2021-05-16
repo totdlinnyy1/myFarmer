@@ -3,9 +3,9 @@ import {v2} from 'cloudinary'
 import withSession from '../../lib/session'
 
 v2.config({
-  cloud_name: 'dbi6ibqgs',
-  api_key: '773473969597524',
-  api_secret: 'iu7br3DwpPfHkkLCLPSObwunqNc',
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 })
 
 export const config = {

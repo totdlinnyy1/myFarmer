@@ -1,5 +1,6 @@
 import withSession from '../../lib/session'
 import {User} from '../../models'
+import dbConnect from '../../utils/dbConnect'
 
 type User = {
   name?: string
@@ -9,10 +10,11 @@ type User = {
 }
 export default withSession(async (req, res) => {
   const user = req.session.get('user')
-
-  if (user) {
-    const dbUser: User = await User.findById(user.id)
-    user['avatar'] = user.avatar === dbUser.avatar ? user.avatar : dbUser.avatar
+  await dbConnect()
+  const dbUser: User = await User.findById(user.id)
+  if (user && dbUser) {
+    user['avatar'] =
+      user.avatar && user.avatar === dbUser.avatar ? user.avatar : dbUser.avatar
     user['name'] = user.name === dbUser.name ? user.name : dbUser.name
     user['lastname'] =
       user.lastname === dbUser.lastname ? user.lastname : dbUser.lastname

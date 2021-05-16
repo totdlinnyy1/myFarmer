@@ -10,10 +10,11 @@ import style from './IndexMap.module.sass'
 
 interface MapProps {
   handleMapClick: () => void
-  placemarks: any
+  mapObjects: any
 }
 
-const IndexMap: FC<MapProps> = ({handleMapClick, placemarks}) => {
+const IndexMap: FC<MapProps> = ({mapObjects}) => {
+  console.log(mapObjects)
   return (
     <YMaps query={{apikey: '02130a82-c368-4497-b079-9609641139cd'}}>
       <div className={style.map}>
@@ -22,12 +23,11 @@ const IndexMap: FC<MapProps> = ({handleMapClick, placemarks}) => {
           width='100%'
           height='100%'
         >
-          {placemarks &&
-            placemarks.map((placemark, key) => (
+          {mapObjects &&
+            mapObjects.map(placemark => (
               <Placemark
-                defaultGeometry={placemark.geometry}
-                onClick={handleMapClick}
-                key={key}
+                geometry={placemark.placemark.coordinates}
+                key={placemark._id}
               />
             ))}
           <SearchControl options={{noPlacemark: true}} />

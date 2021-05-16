@@ -4,25 +4,24 @@ import style from './ProfileMap.module.sass'
 
 interface ProfileMapProps {
   MapObjects: [number][]
-  type: string
 }
 
-const ProfileMap: FC<ProfileMapProps> = ({MapObjects, type}) => {
+const ProfileBuyerMap: FC<ProfileMapProps> = ({MapObjects}) => {
   return (
     <div className={style.container}>
       <div className={style.data}>
         <div className={style.map}>
           <IndexMap
             handleMapClick={() => console.log('hello')}
-            placemarks={MapObjects}
+            mapObjects={MapObjects}
           />
         </div>
         <div className={style.list}>
-          <List objects={MapObjects} type={type} />
+          <List objects={MapObjects} />
         </div>
       </div>
     </div>
   )
 }
 
-export default ProfileMap
+export default ProfileBuyerMap

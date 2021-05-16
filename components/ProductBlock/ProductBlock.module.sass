@@ -1,0 +1,61 @@
+.container
+  min-width: 200px
+  width: 85%
+  min-height: 130px
+  max-height: fit-content
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  margin: 20px 0
+  padding: 10px
+  border-radius: 20px
+  background: #fff
+  border: 2px solid #F92801
+
+.userInfo
+  display: flex
+  align-items: center
+  justify-content: space-between
+
+.name
+  display: flex
+  align-items: center
+  p
+    margin: 0 15px
+  img
+    width: 50px
+    margin: 0 10px
+
+.button
+  height: 40px
+
+  button
+    font-size: 14px
+    padding: 0 10px
+
+.products
+  max-height: 90px
+  width: 100%
+  display: flex
+  overflow: scroll
+  overflow-x: hidden
+  flex-wrap: wrap
+
+  p
+    margin: 0 10px 0 0
+
+@media screen and (max-width: 400px)
+  .container
+    max-width: 250px
+
+  .userInfo
+    height: 130px
+    flex-direction: column
+
+  .products
+    width: 100%
+    flex-direction: column
+    align-items: center
+    p
+      margin-bottom: 5px
+

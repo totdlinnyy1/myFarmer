@@ -1,23 +1,25 @@
 import {GetServerSideProps, NextPage} from 'next'
 import withSession from '../../lib/session'
 import dbConnect from '../../utils/dbConnect'
-import Order from '../../models/Order'
-import {Product, FarmerMapProducts} from '../../models'
+import {Product, FarmerMapProducts, User} from '../../models'
 import useUser from '../../lib/useUser'
 import role from '../../helpers/role'
 import isFarmer from '../../helpers/isFarmer'
-import {Layout, ProfileMap, CreateProduct, FarmerTable} from '../../modules'
+import {
+  Layout,
+  CreateProduct,
+  FarmerTable,
+  ProfileBuyerMap,
+} from '../../modules'
 import {ProfileComponent} from '../../components'
 import style from '../../styles/pages/Profile.module.sass'
 
 interface ProfileProps {
-  fetchedOrders: string
   fetchedProducts: string
   fetchedMapProducts: string
 }
 
 const Profile: NextPage<ProfileProps> = ({
-  fetchedOrders,
   fetchedProducts,
   fetchedMapProducts,
 }) => {
@@ -42,7 +44,9 @@ const Profile: NextPage<ProfileProps> = ({
           />
         </div>
         <div>
-          <ProfileMap MapObjects={JSON.parse(fetchedOrders)} type={user.role} />
+          {isFarmer(user.role) ? null : (
+            <ProfileBuyerMap MapObjects={JSON.parse(fetchedMapProducts)} />
+          )}
         </div>
         {isFarmer(user.role) && (
           <div>
@@ -61,20 +65,41 @@ const Profile: NextPage<ProfileProps> = ({
 export const getServerSideProps: GetServerSideProps = withSession(
   async function ({req}) {
     const user = req.session.get('user')
-    if (isFarmer(user.role)) {
-      await dbConnect()
-      const fetchedOrders = await Order.find({status: 'В процессе'})
-      const fetchedProducts = await Product.find({owner: user.id})
-      const fetchedMapProducts = await FarmerMapProducts.find({
-        owner: user.id,
-      }).populate({path: 'products.product', model: Product})
+    await dbConnect()
+    if (user) {
+      if (isFarmer(user.role)) {
+        const fetchedProducts = await Product.find({owner: user.id})
+        const fetchedMapProducts = await FarmerMapProducts.find({
+          owner: user.id,
+        }).populate({path: 'products.product', model: Product})
+        return {
+          props: {
+            fetchedProducts: JSON.stringify(fetchedProducts),
+            fetchedMapProducts: JSON.stringify(fetchedMapProducts),
+          },
+        }
+      }
+      const fetchedMapProducts = await FarmerMapProducts.find().populate([
+        {
+          path: 'products.product',
+          model: Product,
+        },
+        {
+          path: 'owner',
+          model: User,
+          select: ['name', 'lastname', 'avatar'],
+        },
+      ])
+
       return {
         props: {
-          fetchedOrders: JSON.stringify(fetchedOrders),
-          fetchedProducts: JSON.stringify(fetchedProducts),
           fetchedMapProducts: JSON.stringify(fetchedMapProducts),
+          fetchedProducts: JSON.stringify(null),
         },
       }
+    }
+    return {
+      props: {isLoggedIn: JSON.stringify(false)},
     }
   }
 )

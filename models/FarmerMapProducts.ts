@@ -4,7 +4,7 @@ const FarmerMapProductSchema = new mongoose.Schema(
   {
     owner: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      refPath: 'owner',
       required: true,
     },
     placemark: {
