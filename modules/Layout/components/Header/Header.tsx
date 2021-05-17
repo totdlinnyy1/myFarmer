@@ -115,7 +115,6 @@ const Header: FC = () => {
                   </a>
                 </Link>
                 <a
-                  href='/api/logout'
                   onClick={async e => {
                     e.preventDefault()
                     setLoading(true)
