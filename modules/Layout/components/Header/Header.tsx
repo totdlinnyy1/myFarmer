@@ -119,7 +119,6 @@ const Header: FC = () => {
                     e.preventDefault()
                     setLoading(true)
                     await mutateUser(fetchJson('/api/logout'))
-                    await Router.push('/signin')
                   }}
                 >
                   <Button variant='link' isLoading={loading}>
@@ -185,7 +184,6 @@ const Header: FC = () => {
                       e.preventDefault()
                       setLoading(true)
                       await mutateUser(fetchJson('/api/logout'))
-                      await Router.push('/signin')
                     }}
                   >
                     <Button variant='link' isLoading={loading}>
