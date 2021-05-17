@@ -46,7 +46,7 @@ const InnerForm: FC<FormProps> = props => {
           <FormControl
             id='email'
             mb={5}
-            isInvalid={form.errors.email && form.touched.email}
+            isInvalid={form.errors.email || form.touched.email}
           >
             <FormLabel>Email:</FormLabel>
             <Input
@@ -65,7 +65,7 @@ const InnerForm: FC<FormProps> = props => {
           <FormControl
             id='name'
             mb={5}
-            isInvalid={form.errors.name && form.touched.name}
+            isInvalid={form.errors.name || form.touched.name}
           >
             <FormLabel>Имя:</FormLabel>
             <Input
@@ -84,7 +84,7 @@ const InnerForm: FC<FormProps> = props => {
           <FormControl
             id='lastname'
             mb={5}
-            isInvalid={form.errors.lastname && form.touched.lastname}
+            isInvalid={form.errors.lastname || form.touched.lastname}
           >
             <FormLabel>Фамилия:</FormLabel>
             <Input
@@ -103,7 +103,7 @@ const InnerForm: FC<FormProps> = props => {
           <FormControl
             id='number'
             mb={5}
-            isInvalid={form.errors.number && form.touched.number}
+            isInvalid={form.errors.number || form.touched.number}
           >
             <FormLabel>Номер телефона:</FormLabel>
             <InputGroup>
@@ -126,7 +126,7 @@ const InnerForm: FC<FormProps> = props => {
           <FormControl
             id='password'
             mb={5}
-            isInvalid={form.errors.password && form.touched.password}
+            isInvalid={form.errors.password || form.touched.password}
           >
             <FormLabel>Пароль:</FormLabel>
             <InputGroup>
@@ -152,7 +152,7 @@ const InnerForm: FC<FormProps> = props => {
           <FormControl
             id='rpassword'
             mb={5}
-            isInvalid={form.errors.rpassword && form.touched.rpassword}
+            isInvalid={form.errors.rpassword || form.touched.rpassword}
           >
             <FormLabel>Повторите пароль:</FormLabel>
             <Input
@@ -179,7 +179,7 @@ const InnerForm: FC<FormProps> = props => {
           <FormControl
             id='access'
             mb={5}
-            isInvalid={form.errors.access && form.touched.access}
+            isInvalid={form.errors.access || form.touched.access}
           >
             <Checkbox {...field}>
               Даю согласие на обработку персональных данных

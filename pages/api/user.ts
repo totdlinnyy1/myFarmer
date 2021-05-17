@@ -10,6 +10,7 @@ type User = {
 }
 export default withSession(async (req, res) => {
   const user = req.session.get('user')
+  console.log(user)
   if (user && user.id) {
     await dbConnect()
     const dbUser: User = await User.findById(user.id)
